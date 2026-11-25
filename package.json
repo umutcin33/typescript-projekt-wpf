@@ -32,7 +32,7 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "tsc": "tsc --noEmit --pretty",
-    "db:pull": "drizzle-kit pull",
+    "db:pull": "drizzle-kit pull && node scripts/drizzle-copy.mts && oxfmt src/db",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {

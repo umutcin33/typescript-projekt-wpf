@@ -27,3 +27,6 @@ extras/compose/postgres/password.txt
 !.vscode/extensions.json
 .DS_Store
 Thumbs.db
+
+# Zwischenausgabe von drizzle-kit pull (uebernommen nach src/db/*.mts)
+/drizzle
