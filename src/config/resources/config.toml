@@ -1,0 +1,27 @@
+# Konfiguration des Appservers.
+# Geheimnisse (Passwoerter, Client Secret) stehen NICHT hier, sondern in .env
+# (Vorlage: .env.example) und werden in src/config/config.mts eingelesen.
+
+[server]
+port = 3000
+# HTTP/2 mit TLS; HTTP/1.1 als Fallback z.B. fuer einfache Clients
+allowHTTP1 = true
+
+[db]
+host = "localhost"
+port = 5434
+user = "kunde"
+database = "kunde"
+# max. Anzahl DB-Verbindungen im Pool
+poolMax = 5
+
+[keycloak]
+url = "http://localhost:8880"
+realm = "kunde"
+clientId = "kunde-client"
+
+[log]
+dir = "./log"
+file = "server.log"
+# Ausgabe auf der Konsole mit pino-pretty (zusaetzlich zur Logdatei)
+pretty = true

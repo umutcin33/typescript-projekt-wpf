@@ -15,8 +15,7 @@ pnpm-debug.log*
 # Lokale Umgebungsvariable (Vorlage: .env.example)
 .env
 
-# Private Schluessel und Passwoerter
-src/config/resources/tls/key.pem
+# Passwort-Datei (nicht benutzt)
 extras/compose/postgres/password.txt
 
 # IDE und Betriebssystem
