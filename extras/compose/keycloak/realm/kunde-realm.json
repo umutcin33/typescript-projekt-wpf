@@ -1,0 +1,78 @@
+{
+  "realm": "kunde",
+  "displayName": "Kundenverwaltung",
+  "enabled": true,
+  "sslRequired": "none",
+  "accessTokenLifespan": 1800,
+  "registrationAllowed": false,
+  "roles": {
+    "client": {
+      "kunde-client": [
+        {
+          "name": "admin",
+          "description": "Darf Kunden anlegen, aendern und loeschen"
+        },
+        {
+          "name": "user",
+          "description": "Darf Kunden nur lesen"
+        }
+      ]
+    }
+  },
+  "clients": [
+    {
+      "clientId": "kunde-client",
+      "name": "Appserver Kundenverwaltung",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "i7Q2rTMwWzuOZ6WHA-G-i_XZfT5oIjjQ",
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": true,
+      "defaultClientScopes": ["web-origins", "acr", "profile", "roles", "basic", "email"],
+      "protocolMappers": [
+        {
+          "name": "audience-kunde-client",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "kunde-client",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Alpha",
+      "lastName": "Admin",
+      "email": "admin@acme.com",
+      "credentials": [{ "type": "password", "value": "p", "temporary": false }],
+      "clientRoles": {
+        "kunde-client": ["admin", "user"]
+      }
+    },
+    {
+      "username": "user",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Ulla",
+      "lastName": "User",
+      "email": "user@acme.com",
+      "credentials": [{ "type": "password", "value": "p", "temporary": false }],
+      "clientRoles": {
+        "kunde-client": ["user"]
+      }
+    }
+  ]
+}

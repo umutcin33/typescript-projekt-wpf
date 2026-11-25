@@ -24,7 +24,7 @@ export default defineConfig({
         'pnpm-lock.yaml',
         'extras/compose/**/*.sql',
         'extras/compose/**/*.csv',
-        'extras/compose/keycloak/realm/*.json',
+        'extras/compose/keycloak/**/*.json',
         'src/config/resources/tls/*',
         'drizzle/**',
     ],

@@ -61,6 +61,27 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  keycloak:
+    # Admin-Konsole: http://localhost:8880/admin  (Benutzer "admin", Passwort "p")
+    # https://www.keycloak.org/server/containers
+    image: quay.io/keycloak/keycloak:26.4.7
+    # Realm "kunde" mit Client "kunde-client", Rollen "admin"/"user" und Usern "admin"/"user"
+    # wird beim Start aus keycloak/realm/kunde-realm.json importiert (reproduzierbar).
+    command: [start-dev, --import-realm, --http-port=8080]
+    ports:
+      - published: 8880
+        target: 8080
+    environment:
+      TZ: Europe/Berlin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: p
+      KC_HEALTH_ENABLED: "true"
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import:ro
+    # Bewusst ohne Volume: Keycloak startet immer mit dem Realm aus der JSON-Datei
+    container_name: kunde-keycloak
+    restart: unless-stopped
+
 volumes:
   pg_data:
     name: kunde_pg_data
