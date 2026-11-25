@@ -100,6 +100,8 @@ export default defineConfig({
             plugins: ['vitest', 'typescript', 'import'],
             rules: {
                 'max-lines-per-function': 'off',
+                // Mocks liefern bewusst undefined, z.B. mockResolvedValue(undefined)
+                'unicorn/no-useless-undefined': 'off',
                 'vitest/consistent-test-it': ['error', { fn: 'test', withinDescribe: 'test' }],
                 'vitest/no-identical-title': 'error',
             },
