@@ -5,3 +5,4 @@
 *.jpg binary
 *.cer binary
 *.pem binary
+*.crt binary
