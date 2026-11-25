@@ -1,0 +1,22 @@
+# https://pnpm.io/settings
+
+# Abbruch, falls Node oder pnpm nicht zu "engines" in package.json passen
+# https://pnpm.io/settings/cli#pmonfail
+pmOnFail: error
+
+# Exakte Versionsnummern in package.json (keine ^ oder ~)
+# https://pnpm.io/cli/add#--save-exact--e
+saveExact: true
+savePrefix: ""
+
+# Nur explizit erlaubte Packages duerfen Build-Skripte ausfuehren
+# https://pnpm.io/settings/build#allowbuilds
+allowBuilds:
+  esbuild: true
+
+# https://pnpm.io/settings/other#dedupedirectdeps
+dedupeDirectDeps: true
+
+# Keine Dependencies direkt aus Git-Repositories oder Tarball-URLs
+# https://pnpm.io/settings/dependency-resolution#blockexoticsubdeps
+blockExoticSubdeps: true

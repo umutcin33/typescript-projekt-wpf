@@ -1,0 +1,18 @@
+{
+  // https://www.typescriptlang.org/tsconfig
+  // strictest: alle Strict-Optionen, z.B. noUncheckedIndexedAccess, exactOptionalPropertyTypes
+  // node26: Zielplattform Node 26 (ES-Module, aktuelle Lib)
+  // node-ts: Node fuehrt .mts-Dateien direkt aus ("Type Stripping")
+  "extends": ["@tsconfig/strictest/tsconfig", "@tsconfig/node26/tsconfig", "@tsconfig/node-ts"],
+  "include": ["src/**/*", "test/**/*", "*.mts", "drizzle.config.ts"],
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    "types": ["node", "pg"],
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "rootDir": "."
+  }
+}
