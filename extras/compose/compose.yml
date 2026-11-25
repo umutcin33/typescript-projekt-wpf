@@ -1,0 +1,66 @@
+# Backend-Infrastruktur fuer den Appserver:
+#   PostgreSQL (DB), pgAdmin (DB-Browser) und Keycloak (Authentifizierung)
+#
+# Start:   docker compose -f extras/compose/compose.yml up -d
+# Stopp:   docker compose -f extras/compose/compose.yml down
+# Reset:   docker compose -f extras/compose/compose.yml down -v   (loescht die DB-Daten)
+#
+# Hinweis: Die Host-Ports 5434 / 8889 / 8880 sind bewusst nicht die Standardports,
+# damit es keine Konflikte mit anderen lokalen Projekten gibt.
+
+name: kunde
+
+services:
+  postgres:
+    # https://hub.docker.com/_/postgres
+    image: postgres:18
+    ports:
+      - published: 5434
+        target: 5432
+    environment:
+      TZ: Europe/Berlin
+      POSTGRES_PASSWORD: p
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS: "--auth-local=scram-sha-256 --auth-host=scram-sha-256"
+    volumes:
+      # Ab PostgreSQL 18 liegt PGDATA unterhalb von /var/lib/postgresql/18/docker
+      - pg_data:/var/lib/postgresql
+      # SQL-Skripte werden beim ersten Start in alphabetischer Reihenfolge ausgefuehrt
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+      # CSV-Dateien mit Beispieldaten fuer COPY
+      - ./postgres/csv:/init/csv:ro
+    hostname: postgres
+    container_name: kunde-postgres
+    healthcheck:
+      test: [CMD, pg_isready, --dbname=kunde, --username=postgres]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  pgadmin:
+    # DB-Browser: http://localhost:8889
+    # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+    image: dpage/pgadmin4:9
+    ports:
+      - published: 8889
+        target: 80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@acme.com
+      PGADMIN_DEFAULT_PASSWORD: p
+      # Desktop-Modus: kein Login bei pgAdmin erforderlich
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      # vorkonfigurierte Verbindung zur DB "kunde" (Passwort beim Verbinden: p)
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    container_name: kunde-pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+    name: kunde_pg_data
