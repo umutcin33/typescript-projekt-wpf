@@ -1,0 +1,21 @@
+meta {
+  name: GET Kunden mit Teil des Nachnamens
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{restUrl}}?nachname=er
+  body: none
+  auth: none
+}
+
+params:query {
+  nachname: er
+}
+
+tests {
+  test("Status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

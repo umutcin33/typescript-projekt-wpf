@@ -1,0 +1,18 @@
+meta {
+  name: GET nicht vorhandene ID (404)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{restUrl}}/999999
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status 404 als application/problem+json", function () {
+    expect(res.getStatus()).to.equal(404);
+    expect(res.getHeader("content-type")).to.contain("application/problem+json");
+  });
+}

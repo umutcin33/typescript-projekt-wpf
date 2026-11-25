@@ -1,0 +1,41 @@
+meta {
+  name: PUT mit veralteter Version (412, Lost Update)
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{restUrl}}/{{kundeId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nachname": "Lost-Update",
+    "vorname": "Berta",
+    "email": "{{email}}",
+    "geburtsdatum": "1998-08-08",
+    "adresse": {
+      "strasse": "Kaiserstrasse",
+      "hausnummer": "1",
+      "plz": "76131",
+      "ort": "Karlsruhe"
+    }
+  }
+}
+
+tests {
+  test("Status 412 Precondition Failed", function () {
+    expect(res.getStatus()).to.equal(412);
+    expect(res.getHeader("content-type")).to.contain("application/problem+json");
+  });
+}

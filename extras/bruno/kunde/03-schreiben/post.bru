@@ -1,0 +1,58 @@
+meta {
+  name: POST neuer Kunde (admin)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{restUrl}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nachname": "Bruno",
+    "vorname": "Berta",
+    "email": "{{email}}",
+    "geburtsdatum": "1998-08-08",
+    "adresse": {
+      "strasse": "Moltkestrasse",
+      "hausnummer": "30",
+      "plz": "76133",
+      "ort": "Karlsruhe"
+    },
+    "bestellungen": [
+      {
+        "produktname": "Laptop",
+        "menge": 1,
+        "preis": 899.99
+      },
+      {
+        "produktname": "Tasche",
+        "menge": 1,
+        "preis": 39.5
+      }
+    ]
+  }
+}
+
+script:pre-request {
+  bru.setVar("email", `berta.${Date.now()}@acme.de`);
+}
+
+script:post-response {
+  const location = res.getHeader("location");
+  bru.setVar("kundeId", location.split("/").pop());
+}
+
+tests {
+  test("Status 201 mit Location", function () {
+    expect(res.getStatus()).to.equal(201);
+    expect(res.getHeader("location")).to.match(/\/rest\/kunden\/\d+$/);
+  });
+}

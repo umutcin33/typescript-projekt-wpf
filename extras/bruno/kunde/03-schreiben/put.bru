@@ -1,0 +1,41 @@
+meta {
+  name: PUT Kunde mit If-Match "0"
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{restUrl}}/{{kundeId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nachname": "Bruno-Geaendert",
+    "vorname": "Berta",
+    "email": "{{email}}",
+    "geburtsdatum": "1998-08-08",
+    "adresse": {
+      "strasse": "Kaiserstrasse",
+      "hausnummer": "1",
+      "plz": "76131",
+      "ort": "Karlsruhe"
+    }
+  }
+}
+
+tests {
+  test("Status 204 mit neuem ETag", function () {
+    expect(res.getStatus()).to.equal(204);
+    expect(res.getHeader("etag")).to.equal('"1"');
+  });
+}

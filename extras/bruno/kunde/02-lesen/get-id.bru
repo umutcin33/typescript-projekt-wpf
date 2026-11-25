@@ -1,0 +1,28 @@
+meta {
+  name: GET Kunde mit ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{restUrl}}/20
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+script:post-response {
+  bru.setVar("etag20", res.getHeader("etag"));
+}
+
+tests {
+  test("Status 200 mit ETag, Adresse und Bestellungen", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getHeader("etag")).to.match(/^"\d+"$/);
+    expect(res.body.adresse.plz).to.match(/^\d{5}$/);
+    expect(res.body.bestellungen).to.be.an("array");
+  });
+}

@@ -1,0 +1,35 @@
+meta {
+  name: PATCH Adresse mit If-Match "1"
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{restUrl}}/{{kundeId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  If-Match: "1"
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "adresse": {
+      "ort": "Bruchsal",
+      "plz": "76646"
+    }
+  }
+}
+
+tests {
+  test("Status 204 mit ETag 2", function () {
+    expect(res.getStatus()).to.equal(204);
+    expect(res.getHeader("etag")).to.equal('"2"');
+  });
+}

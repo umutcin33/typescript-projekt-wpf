@@ -1,0 +1,21 @@
+meta {
+  name: GET Kunde mit If-None-Match (304)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{restUrl}}/20
+  body: none
+  auth: none
+}
+
+headers {
+  If-None-Match: {{etag20}}
+}
+
+tests {
+  test("Status 304 Not Modified", function () {
+    expect(res.getStatus()).to.equal(304);
+  });
+}

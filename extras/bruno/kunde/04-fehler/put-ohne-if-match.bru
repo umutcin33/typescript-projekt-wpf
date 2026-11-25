@@ -1,0 +1,35 @@
+meta {
+  name: PUT ohne If-Match (428)
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{restUrl}}/20
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nachname": "Mueller",
+    "vorname": "Anna",
+    "email": "anna.mueller@acme.de",
+    "adresse": {
+      "strasse": "Kaiserstrasse",
+      "hausnummer": "12",
+      "plz": "76131",
+      "ort": "Karlsruhe"
+    }
+  }
+}
+
+tests {
+  test("Status 428 Precondition Required", function () {
+    expect(res.getStatus()).to.equal(428);
+  });
+}

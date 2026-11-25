@@ -1,0 +1,43 @@
+meta {
+  name: POST mit ungueltigen Daten (422)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{restUrl}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nachname": "",
+    "vorname": "X",
+    "email": "keine-email",
+    "adresse": {
+      "strasse": "A",
+      "hausnummer": "1",
+      "plz": "123",
+      "ort": "B"
+    },
+    "bestellungen": [
+      {
+        "produktname": "P",
+        "menge": 0,
+        "preis": -1
+      }
+    ]
+  }
+}
+
+tests {
+  test("Status 422 mit Problem Details", function () {
+    expect(res.getStatus()).to.equal(422);
+    expect(res.body.errors.length).to.be.greaterThan(3);
+  });
+}

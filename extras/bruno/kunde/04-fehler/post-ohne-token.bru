@@ -1,0 +1,21 @@
+meta {
+  name: POST ohne Token (401)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{restUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {}
+}
+
+tests {
+  test("Status 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}

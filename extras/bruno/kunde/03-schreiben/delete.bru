@@ -1,0 +1,21 @@
+meta {
+  name: DELETE Kunde (admin)
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{restUrl}}/{{kundeId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("Status 204", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}

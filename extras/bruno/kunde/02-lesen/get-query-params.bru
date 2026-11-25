@@ -1,0 +1,25 @@
+meta {
+  name: GET Kunden mit PLZ-Praefix und Pagination
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{restUrl}}?plz=7&page=1&size=2
+  body: none
+  auth: none
+}
+
+params:query {
+  plz: 7
+  page: 1
+  size: 2
+}
+
+tests {
+  test("Status 200 mit Seite", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.body.content).to.have.lengthOf(2);
+    expect(res.body.page.number).to.equal(1);
+  });
+}
