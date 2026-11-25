@@ -1,0 +1,7 @@
+# Zeilenenden einheitlich LF (auch unter Windows), damit oxfmt nicht meckert
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.cer binary
+*.pem binary

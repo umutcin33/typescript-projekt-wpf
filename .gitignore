@@ -1,0 +1,29 @@
+# Abhaengigkeiten und Build-Artefakte
+node_modules
+dist
+build
+coverage
+temp
+tmp
+
+# Logs
+log
+logs
+*.log
+pnpm-debug.log*
+
+# Lokale Umgebungsvariable (Vorlage: .env.example)
+.env
+
+# Private Schluessel und Passwoerter
+src/config/resources/tls/key.pem
+extras/compose/postgres/password.txt
+
+# IDE und Betriebssystem
+.idea
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
