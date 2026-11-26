@@ -147,7 +147,13 @@ pnpm dlx @usebruno/cli@2 run --env localhost --insecure -r
 ```
 
 Die Methode QUERY ist in Bruno nicht enthalten; sie wird durch die Integrationstests
-abgedeckt.
+und die Postman-Kollektion abgedeckt.
+
+**Postman:** [extras/postman/kunde.postman_collection.json](extras/postman/kunde.postman_collection.json)
+in Postman importieren (_Import_ ⇒ Datei auswählen) und mit _Run collection_ ausführen.
+Ein Environment ist nicht nötig (Collection-Variablen); die SSL-Prüfung ist für die
+Requests der Kollektion bereits abgeschaltet. Enthalten sind 21 Requests mit Tests,
+einschließlich QUERY.
 
 ## Drizzle-Code generieren
 
@@ -217,7 +223,7 @@ test/integration/          Vitest + Axios (HTTP/2)
 | Security: 1 User, 1 Rolle, 1 geschützte Methode | [roles-required.mts](src/security/roles-required.mts): JWT-Prüfung mit jose (JWKS, Issuer, Audience); POST/PUT/PATCH/DELETE nur mit Rolle `admin` |
 | Unit-Tests mit Vitest | `src/**/*.test.mts` (u.a. Service mit gemocktem Repository) |
 | Integrationstests mit Vitest und Axios für HTTP/2 | [test/integration](test/integration): `httpVersion: 2` |
-| Requests mit Bruno | [extras/bruno/kunde](extras/bruno/kunde) |
+| Requests mit Bruno / Postman | [extras/bruno/kunde](extras/bruno/kunde), [extras/postman](extras/postman/kunde.postman_collection.json) |
 | oxlint, oxfmt fehlerfrei | `pnpm lint`, `pnpm fmt:check` |
 | Schichten, Konfiguration, Logging | router / service / repository, [config.toml](src/config/resources/config.toml) + `.env`, Pino in [logger.mts](src/logger/logger.mts) |
 | Named Exports, const/let, Template Strings, Shorthand Properties, Destructuring | durchgängig; per oxlint erzwungen: `import/no-default-export`, `no-var`, `prefer-const`, `prefer-template`, `object-shorthand`, `prefer-destructuring` |
